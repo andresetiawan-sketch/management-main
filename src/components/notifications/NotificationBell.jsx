@@ -65,41 +65,58 @@ export default function NotificationBell({ employee }) {
   useEffect(() => {
     if (!employee?.nik_karyawan) return;
 
-    // Subscribe to ShiftSchedule changes
-    const unsubShift = base44.entities.ShiftSchedule.subscribe((event) => {
-      if (
-        event.type === 'create' || event.type === 'update'
-      ) {
-        const s = event.data;
-        // Only notify if this employee is in the shift
+    // Initialize unsub functions
+    let unsubShift = () => {};
+    let unsubPkg = () => {};
+    let unsubLeave = () => {};
+    let unsubTicket = () => {};
+    let unsubEmergency = () => {};
+    let unsubPatrol = () => {};
+    let unsubHydrant = () => {};
+    let unsubFacility = () => {};
+    let unsubChecklist = () => {};
+    let unsubAttendance = () => {};
+    let unsubPanic = () => {};
+
+    // Safely subscribe to ShiftSchedule changes (if method exists)
+    if (base44.entities.ShiftSchedule?.subscribe) {
+      unsubShift = base44.entities.ShiftSchedule.subscribe((event) => {
         if (
-          s.area_tugas === employee.area_tugas ||
-          (s.karyawan_ids && s.karyawan_ids.includes(employee.nik_karyawan))
+          event.type === 'create' || event.type === 'update'
         ) {
+          const s = event.data;
+          // Only notify if this employee is in the shift
+          if (
+            s.area_tugas === employee.area_tugas ||
+            (s.karyawan_ids && s.karyawan_ids.includes(employee.nik_karyawan))
+          ) {
+            addNotif({
+              id: `shift-${event.id}-${Date.now()}`,
+              type: 'shift',
+              title: 'Jadwal Shift Diperbarui',
+              body: `Shift ${s.tipe_shift || ''} area ${s.area_tugas} pada ${s.tanggal}`,
+              time: new Date()
+            });
+          }
+        }
+      });
+    }
+
+    // Safely subscribe to TenantPackage
+    if (base44.entities.TenantPackage?.subscribe) {
+      unsubPkg = base44.entities.TenantPackage.subscribe((event) => {
+        if (event.type === 'create' && event.data?.area_tugas === employee.area_tugas) {
+          const p = event.data;
           addNotif({
-            id: `shift-${event.id}-${Date.now()}`,
-            type: 'shift',
-            title: 'Jadwal Shift Diperbarui',
-            body: `Shift ${s.tipe_shift || ''} area ${s.area_tugas} pada ${s.tanggal}`,
+            id: `pkg-${event.id}-${Date.now()}`,
+            type: 'package',
+            title: 'Paket Tenant Masuk',
+            body: `Paket untuk ${p.nama_penerima} (${p.unit_tenant || '-'})`,
             time: new Date()
           });
         }
-      }
-    });
-
-    // Subscribe to TenantPackage
-    const unsubPkg = base44.entities.TenantPackage.subscribe((event) => {
-      if (event.type === 'create' && event.data?.area_tugas === employee.area_tugas) {
-        const p = event.data;
-        addNotif({
-          id: `pkg-${event.id}-${Date.now()}`,
-          type: 'package',
-          title: 'Paket Tenant Masuk',
-          body: `Paket untuk ${p.nama_penerima} (${p.unit_tenant || '-'})`,
-          time: new Date()
-        });
-      }
-    });
+      });
+    }
 
     // Subscribe to LeaveRequest - notify management
     const MGMT_ROLES = ['Master Admin','Admin Pos Security','Admin Pos','Admin Facility','Supervisor Security','Supervisor Facility','Chief Security','Leader Security','Leader Facility','Admin Security','SPV Security'];
@@ -111,8 +128,7 @@ export default function NotificationBell({ employee }) {
     // Helper: check if event belongs to this employee's area (master admin sees all)
     const isMyArea = (data) => isMasterAdmin || !data?.area_tugas || data.area_tugas === myArea;
 
-    let unsubLeave = () => {};
-    if (isMgmt) {
+    if (isMgmt && base44.entities.LeaveRequest?.subscribe) {
       unsubLeave = base44.entities.LeaveRequest.subscribe((event) => {
         if (event.type === 'create') {
           const r = event.data;
@@ -130,8 +146,7 @@ export default function NotificationBell({ employee }) {
     }
 
     // Subscribe to FacilityTicket - notify management
-    let unsubTicket = () => {};
-    if (isMgmt) {
+    if (isMgmt && base44.entities.FacilityTicket?.subscribe) {
       unsubTicket = base44.entities.FacilityTicket.subscribe((event) => {
         if (event.type === 'create') {
           const t = event.data;
@@ -150,8 +165,7 @@ export default function NotificationBell({ employee }) {
     }
 
     // Subscribe to ChecklistEmergency - notify management on bad condition
-    let unsubEmergency = () => {};
-    if (isMgmt) {
+    if (isMgmt && base44.entities.ChecklistEmergency?.subscribe) {
       unsubEmergency = base44.entities.ChecklistEmergency.subscribe((event) => {
         if (event.type === 'create' || event.type === 'update') {
           const e = event.data;
@@ -171,8 +185,7 @@ export default function NotificationBell({ employee }) {
     }
 
     // Subscribe to EPatrol - notify on Taruna findings
-    let unsubPatrol = () => {};
-    if (isMgmt) {
+    if (isMgmt && base44.entities.EPatrol?.subscribe) {
       unsubPatrol = base44.entities.EPatrol.subscribe((event) => {
         if ((event.type === 'create' || event.type === 'update') && event.data?.kondisi === 'Taruna') {
           const p = event.data;
@@ -190,8 +203,7 @@ export default function NotificationBell({ employee }) {
     }
 
     // Subscribe to ChecklistHydrant - notify on Rusak
-    let unsubHydrant = () => {};
-    if (isMgmt) {
+    if (isMgmt && base44.entities.ChecklistHydrant?.subscribe) {
       unsubHydrant = base44.entities.ChecklistHydrant.subscribe((event) => {
         if ((event.type === 'create' || event.type === 'update') && (event.data?.kondisi === 'Rusak' || event.data?.kondisi === 'Perlu Maintenance')) {
           const h = event.data;
@@ -209,8 +221,7 @@ export default function NotificationBell({ employee }) {
     }
 
     // Subscribe to EFacility - notify on new items
-    let unsubFacility = () => {};
-    if (isMgmt) {
+    if (isMgmt && base44.entities.EFacility?.subscribe) {
       unsubFacility = base44.entities.EFacility.subscribe((event) => {
         if (event.type === 'create') {
           const f = event.data;
@@ -228,8 +239,7 @@ export default function NotificationBell({ employee }) {
     }
 
     // Subscribe to DailyChecklist - notify on anomali (potensi bahaya / kondisi Tidak banyak)
-    let unsubChecklist = () => {};
-    if (isMgmt) {
+    if (isMgmt && base44.entities.DailyChecklist?.subscribe) {
       unsubChecklist = base44.entities.DailyChecklist.subscribe((event) => {
         if (event.type === 'create') {
           const c = event.data;
@@ -254,8 +264,7 @@ export default function NotificationBell({ employee }) {
     }
 
     // Subscribe to Attendance - notify on Terlambat
-    let unsubAttendance = () => {};
-    if (isMgmt) {
+    if (isMgmt && base44.entities.Attendance?.subscribe) {
       unsubAttendance = base44.entities.Attendance.subscribe((event) => {
         if ((event.type === 'create' || event.type === 'update') && event.data?.status === 'Terlambat') {
           const a = event.data;
@@ -273,8 +282,7 @@ export default function NotificationBell({ employee }) {
     }
 
     // Subscribe to PanicAlert - semua alert muncul untuk Master Admin & Management (tanpa filter area)
-    let unsubPanic = () => {};
-    if (isMgmt) {
+    if (isMgmt && base44.entities.PanicAlert?.subscribe) {
       unsubPanic = base44.entities.PanicAlert.subscribe((event) => {
         if (event.type === 'create') {
           const p = event.data;

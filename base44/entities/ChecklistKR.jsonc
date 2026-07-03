@@ -1,0 +1,112 @@
+{
+  "name": "ChecklistKR",
+  "type": "object",
+  "properties": {
+    "nik_karyawan": {
+      "type": "string"
+    },
+    "nama_karyawan": {
+      "type": "string"
+    },
+    "area_tugas": {
+      "type": "string"
+    },
+    "tanggal": {
+      "type": "string",
+      "format": "date"
+    },
+    "tipe_kendaraan": {
+      "type": "string",
+      "enum": [
+        "KR 2",
+        "KR 4"
+      ]
+    },
+    "no_polisi": {
+      "type": "string"
+    },
+    "kondisi_ban": {
+      "type": "string",
+      "enum": [
+        "Baik",
+        "Perlu Ganti"
+      ]
+    },
+    "kondisi_mesin": {
+      "type": "string",
+      "enum": [
+        "Baik",
+        "Perlu Service"
+      ]
+    },
+    "kondisi_lampu": {
+      "type": "string",
+      "enum": [
+        "Baik",
+        "Rusak"
+      ]
+    },
+    "kondisi_rem": {
+      "type": "string",
+      "enum": [
+        "Baik",
+        "Perlu Service"
+      ]
+    },
+    "bbm": {
+      "type": "string"
+    },
+    "km_terakhir": {
+      "type": "string"
+    },
+    "foto": {
+      "type": "string"
+    },
+    "catatan": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "nik_karyawan",
+    "tanggal",
+    "area_tugas"
+  ],
+  "rls": {
+    "create": null,
+    "read": {
+      "$or": [
+        {
+          "data.nik_karyawan": "{{user.data.nik_karyawan}}"
+        },
+        {
+          "data.area_tugas": "{{user.data.area_tugas}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "update": {
+      "$or": [
+        {
+          "data.nik_karyawan": "{{user.data.nik_karyawan}}"
+        },
+        {
+          "data.area_tugas": "{{user.data.area_tugas}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

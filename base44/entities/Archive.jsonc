@@ -1,0 +1,60 @@
+{
+  "name": "Archive",
+  "type": "object",
+  "properties": {
+    "entity_name": {
+      "type": "string",
+      "description": "Nama entity yang di-archive (e.g., Attendance, EPatrol)"
+    },
+    "original_id": {
+      "type": "string",
+      "description": "ID original dari record di entity asli"
+    },
+    "data": {
+      "type": "object",
+      "description": "Data lengkap yang di-archive dalam JSON format"
+    },
+    "archive_date": {
+      "type": "string",
+      "format": "date",
+      "description": "Tanggal record di-archive"
+    },
+    "original_created_date": {
+      "type": "string",
+      "format": "date",
+      "description": "Tanggal original record dibuat"
+    },
+    "notes": {
+      "type": "string",
+      "description": "Catatan tentang archiving"
+    }
+  },
+  "required": [
+    "entity_name",
+    "original_id",
+    "data",
+    "archive_date"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

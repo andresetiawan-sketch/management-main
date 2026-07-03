@@ -1,0 +1,159 @@
+{
+  "name": "StockMutation",
+  "type": "object",
+  "properties": {
+    "kode_barang": {
+      "type": "string"
+    },
+    "nama_barang": {
+      "type": "string"
+    },
+    "inventory_id": {
+      "type": "string"
+    },
+    "area_asal": {
+      "type": "string"
+    },
+    "area_tujuan": {
+      "type": "string"
+    },
+    "jumlah": {
+      "type": "number"
+    },
+    "tipe": {
+      "type": "string",
+      "enum": [
+        "Mutasi Antar Area",
+        "Pengeluaran",
+        "Penerimaan"
+      ],
+      "default": "Mutasi Antar Area"
+    },
+    "catatan": {
+      "type": "string"
+    },
+    "nik_petugas": {
+      "type": "string"
+    },
+    "nama_petugas": {
+      "type": "string"
+    },
+    "tanggal": {
+      "type": "string",
+      "format": "date"
+    },
+    "approval_asal_status": {
+      "type": "string",
+      "enum": [
+        "Menunggu",
+        "Disetujui",
+        "Ditolak"
+      ],
+      "default": "Menunggu"
+    },
+    "approval_asal_nik": {
+      "type": "string"
+    },
+    "approval_asal_nama": {
+      "type": "string"
+    },
+    "approval_asal_waktu": {
+      "type": "string"
+    },
+    "approval_asal_catatan": {
+      "type": "string"
+    },
+    "approval_tujuan_status": {
+      "type": "string",
+      "enum": [
+        "Menunggu",
+        "Disetujui",
+        "Ditolak"
+      ],
+      "default": "Menunggu"
+    },
+    "approval_tujuan_nik": {
+      "type": "string"
+    },
+    "approval_tujuan_nama": {
+      "type": "string"
+    },
+    "approval_tujuan_waktu": {
+      "type": "string"
+    },
+    "approval_tujuan_catatan": {
+      "type": "string"
+    },
+    "status_mutasi": {
+      "type": "string",
+      "enum": [
+        "Menunggu Approval",
+        "Disetujui Sebagian",
+        "Disetujui",
+        "Ditolak",
+        "Selesai"
+      ],
+      "default": "Menunggu Approval"
+    },
+    "nfc_tag": {
+      "type": "string",
+      "description": "NFC tag ID jika scan NFC"
+    },
+    "scan_method": {
+      "type": "string",
+      "enum": [
+        "Manual",
+        "QR Code",
+        "NFC"
+      ],
+      "default": "Manual"
+    }
+  },
+  "required": [
+    "kode_barang",
+    "nama_barang",
+    "jumlah",
+    "tanggal"
+  ],
+  "rls": {
+    "create": null,
+    "read": {
+      "$or": [
+        {
+          "data.nik_petugas": "{{user.data.nik_karyawan}}"
+        },
+        {
+          "data.area_asal": "{{user.data.area_tugas}}"
+        },
+        {
+          "data.area_tujuan": "{{user.data.area_tugas}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "update": {
+      "$or": [
+        {
+          "data.area_asal": "{{user.data.area_tugas}}"
+        },
+        {
+          "data.area_tujuan": "{{user.data.area_tugas}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

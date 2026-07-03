@@ -1,0 +1,166 @@
+{
+  "name": "Employee",
+  "type": "object",
+  "properties": {
+    "nik_karyawan": {
+      "type": "string",
+      "description": "NIK ID Karyawan unik"
+    },
+    "nama_lengkap": {
+      "type": "string"
+    },
+    "jabatan": {
+      "type": "string"
+    },
+    "foto": {
+      "type": "string"
+    },
+    "area_tugas": {
+      "type": "string"
+    },
+    "tanggal_bergabung": {
+      "type": "string",
+      "format": "date"
+    },
+    "tanggal_mutasi": {
+      "type": "string",
+      "format": "date"
+    },
+    "entity_pt": {
+      "type": "string",
+      "enum": [
+        "PT. PUTRA INDONESIA SOLUSI",
+        "PT. PRESTASI INDONESIA SOLUSI"
+      ]
+    },
+    "branch": {
+      "type": "string"
+    },
+    "password": {
+      "type": "string",
+      "default": "123456"
+    },
+    "email": {
+      "type": "string"
+    },
+    "no_telepon": {
+      "type": "string"
+    },
+    "jenis_kelamin": {
+      "type": "string",
+      "enum": [
+        "Laki-laki",
+        "Perempuan"
+      ]
+    },
+    "tempat_lahir": {
+      "type": "string"
+    },
+    "tanggal_lahir": {
+      "type": "string",
+      "format": "date"
+    },
+    "alamat": {
+      "type": "string"
+    },
+    "tinggi_badan": {
+      "type": "number"
+    },
+    "berat_badan": {
+      "type": "number"
+    },
+    "ukuran_baju": {
+      "type": "string"
+    },
+    "ukuran_sepatu": {
+      "type": "string"
+    },
+    "pendidikan_terakhir": {
+      "type": "string"
+    },
+    "role": {
+      "type": "string",
+      "enum": [
+        "Master Admin",
+        "Admin Pos",
+        "Chief Security",
+        "Admin Security",
+        "Admin Facility",
+        "SPV Security",
+        "Admin Pos Security",
+        "Supervisor Security",
+        "Leader Security",
+        "Supervisor Facility",
+        "Leader Facility",
+        "Staff",
+        "PIC Client"
+      ],
+      "default": "Staff"
+    },
+    "regu": {
+      "type": "string",
+      "enum": [
+        "Regu A",
+        "Regu B",
+        "Regu C",
+        "Regu D",
+        "Non Regu"
+      ]
+    },
+    "status_aktif": {
+      "type": "string",
+      "enum": [
+        "Aktif",
+        "Non-Aktif"
+      ],
+      "default": "Aktif"
+    },
+    "no_rekening": {
+      "type": "string"
+    },
+    "bank": {
+      "type": "string"
+    },
+    "applicant_id": {
+      "type": "string",
+      "description": "Referensi ke data pelamar"
+    },
+    "nik_ektp": {
+      "type": "string"
+    },
+    "no_kk": {
+      "type": "string"
+    },
+    "no_npwp": {
+      "type": "string"
+    },
+    "sim_type": {
+      "type": "string"
+    },
+    "catatan": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "nik_karyawan",
+    "nama_lengkap"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": null,
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

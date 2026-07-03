@@ -1,0 +1,114 @@
+# ============================================
+# CLOUDFLARE WRANGLER CONFIGURATION
+# APP-PIS BACKEND WORKER
+# ============================================
+
+name = "app-pis-api"
+main = "src/index.js"
+
+# Account info (update with your Cloudflare account details)
+account_id = "074076a2e5880aa07ba1e87d027c3b16"
+workers_dev = true
+compatibility_date = "2025-07-18"
+
+# ============================================
+# DEVELOPMENT ENVIRONMENT
+# ============================================
+[env.development]
+vars = { ENV = "development", DEBUG = "true" }
+routes = []  # Local development only
+
+# ============================================
+# STAGING ENVIRONMENT
+# ============================================
+[env.staging]
+routes = [
+  { pattern = "app-pis-staging-api.example.com/*", zone_id = "YOUR_ZONE_ID" }
+]
+vars = { ENV = "staging", DEBUG = "false" }
+
+# D1 Database for Staging
+[[env.staging.d1_databases]]
+binding = "DB"
+database_name = "app-pis-staging"
+database_id = "YOUR_D1_DATABASE_ID_STAGING"
+migrations_dir = "migrations"
+
+# R2 Bucket for Staging
+[[env.staging.r2_buckets]]
+binding = "STORAGE"
+bucket_name = "app-pis-staging-uploads"
+
+# ============================================
+# PRODUCTION ENVIRONMENT
+# ============================================
+[env.production]
+routes = [
+  { pattern = "app-pis-api.example.com/*", zone_id = "YOUR_ZONE_ID" }
+]
+vars = { ENV = "production", DEBUG = "false" }
+
+# D1 Database for Production
+[[env.production.d1_databases]]
+binding = "DB"
+database_name = "app-pis-prod"
+database_id = "1fd3f361-1d5a-4338-9bc2-b7e09a123d46"
+migrations_dir = "migrations"
+
+# R2 Bucket for Production
+[[env.production.r2_buckets]]
+binding = "STORAGE"
+bucket_name = "app-pis-prod-uploads"
+
+# ============================================
+# DEFAULT D1 DATABASE (Development)
+# ============================================
+[[d1_databases]]
+binding = "DB"
+database_name = "app-pis-dev"
+database_id = "YOUR_D1_DATABASE_ID_DEV"
+migrations_dir = "migrations"
+
+# ============================================
+# DEFAULT R2 BUCKET (Development)
+# ============================================
+[[r2_buckets]]
+binding = "STORAGE"
+bucket_name = "app-pis-dev-uploads"
+
+# ============================================
+# ENVIRONMENT SECRETS
+# ============================================
+# Set these using: wrangler secret put <SECRET_NAME> --env <ENV>
+#
+# Required secrets:
+# - JWT_SECRET          (for token signing)
+# - DATABASE_PASSWORD   (if DB requires password)
+# - SENDGRID_API_KEY    (for email notifications)
+# - EXTERNAL_API_KEY    (if using external services)
+#
+# Example:
+# wrangler secret put JWT_SECRET --env production
+# wrangler secret put SENDGRID_API_KEY --env production
+
+# ============================================
+# CRON TRIGGERS (Scheduled Tasks)
+# ============================================
+[[triggers.crons]]
+crons = ["0 2 * * *"]  # Daily at 2 AM UTC
+handler = "scheduled"  # Calls scheduled() function in index.js
+
+# ============================================
+# BUILD CONFIGURATION
+# ============================================
+[build]
+cwd = "."
+command = "npm run build"
+watch_paths = ["src/**/*.js"]
+
+# ============================================
+# LIMITS & COMPATIBILITY
+# ============================================
+compatibility_date = "2024-12-16"
+compatibility_flags = ["nodejs_compat"]
+limits = { cpu_ms = 50000 }

@@ -1,0 +1,158 @@
+{
+  "name": "PerformanceReview",
+  "type": "object",
+  "properties": {
+    "nik_karyawan": {
+      "type": "string"
+    },
+    "nama_karyawan": {
+      "type": "string"
+    },
+    "jabatan": {
+      "type": "string"
+    },
+    "area_tugas": {
+      "type": "string"
+    },
+    "periode": {
+      "type": "string",
+      "description": "Format: YYYY-MM (misal 2026-05)"
+    },
+    "nik_reviewer": {
+      "type": "string"
+    },
+    "nama_reviewer": {
+      "type": "string"
+    },
+    "jabatan_reviewer": {
+      "type": "string"
+    },
+    "skor_kehadiran": {
+      "type": "number",
+      "default": 0,
+      "description": "0-100"
+    },
+    "skor_disiplin": {
+      "type": "number",
+      "default": 0,
+      "description": "0-100"
+    },
+    "skor_kinerja": {
+      "type": "number",
+      "default": 0,
+      "description": "0-100"
+    },
+    "skor_kerjasama": {
+      "type": "number",
+      "default": 0,
+      "description": "0-100"
+    },
+    "skor_inisiatif": {
+      "type": "number",
+      "default": 0,
+      "description": "0-100"
+    },
+    "skor_total": {
+      "type": "number",
+      "default": 0,
+      "description": "Rata-rata otomatis dihitung"
+    },
+    "grade": {
+      "type": "string",
+      "enum": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "description": "A\u226585, B\u226570, C\u226555, D<55"
+    },
+    "catatan_kehadiran": {
+      "type": "string"
+    },
+    "catatan_kinerja": {
+      "type": "string"
+    },
+    "rekomendasi": {
+      "type": "string"
+    },
+    "data_kehadiran": {
+      "type": "object",
+      "description": "Ringkasan otomatis dari entity Attendance",
+      "properties": {
+        "total_hadir": {
+          "type": "number"
+        },
+        "total_izin": {
+          "type": "number"
+        },
+        "total_sakit": {
+          "type": "number"
+        },
+        "total_alfa": {
+          "type": "number"
+        }
+      }
+    },
+    "data_laporan": {
+      "type": "object",
+      "description": "Ringkasan dari LaporanHarian",
+      "properties": {
+        "total_laporan": {
+          "type": "number"
+        }
+      }
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "Draft",
+        "Final"
+      ],
+      "default": "Draft"
+    }
+  },
+  "required": [
+    "nik_karyawan",
+    "periode",
+    "nik_reviewer"
+  ],
+  "rls": {
+    "create": null,
+    "read": {
+      "$or": [
+        {
+          "data.nik_karyawan": "{{user.data.nik_karyawan}}"
+        },
+        {
+          "data.nik_reviewer": "{{user.data.nik_karyawan}}"
+        },
+        {
+          "data.area_tugas": "{{user.data.area_tugas}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "update": {
+      "$or": [
+        {
+          "data.nik_reviewer": "{{user.data.nik_karyawan}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

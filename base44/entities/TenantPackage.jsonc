@@ -1,0 +1,97 @@
+{
+  "name": "TenantPackage",
+  "type": "object",
+  "properties": {
+    "nik_karyawan": {
+      "type": "string"
+    },
+    "nama_karyawan": {
+      "type": "string"
+    },
+    "area_tugas": {
+      "type": "string"
+    },
+    "tanggal": {
+      "type": "string",
+      "format": "date"
+    },
+    "waktu_terima": {
+      "type": "string"
+    },
+    "nama_pengirim": {
+      "type": "string"
+    },
+    "nama_penerima": {
+      "type": "string"
+    },
+    "unit_tenant": {
+      "type": "string"
+    },
+    "jenis_paket": {
+      "type": "string"
+    },
+    "no_resi": {
+      "type": "string"
+    },
+    "foto_paket": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "Diterima",
+        "Diambil"
+      ],
+      "default": "Diterima"
+    },
+    "waktu_diambil": {
+      "type": "string"
+    },
+    "catatan": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "tanggal",
+    "area_tugas",
+    "nama_penerima"
+  ],
+  "rls": {
+    "create": null,
+    "read": {
+      "$or": [
+        {
+          "data.nik_karyawan": "{{user.data.nik_karyawan}}"
+        },
+        {
+          "data.area_tugas": "{{user.data.area_tugas}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "update": {
+      "$or": [
+        {
+          "data.nik_karyawan": "{{user.data.nik_karyawan}}"
+        },
+        {
+          "data.area_tugas": "{{user.data.area_tugas}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

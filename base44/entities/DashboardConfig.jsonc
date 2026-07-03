@@ -1,0 +1,74 @@
+{
+  "name": "DashboardConfig",
+  "type": "object",
+  "properties": {
+    "employee_nik": {
+      "type": "string",
+      "description": "NIK karyawan pemilik konfigurasi"
+    },
+    "area_tugas": {
+      "type": "string",
+      "description": "Area kerja karyawan"
+    },
+    "widgets": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      },
+      "description": "Daftar widget dan urutan yang diaktifkan"
+    },
+    "menu_order": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Urutan menu sidebar custom"
+    }
+  },
+  "required": [
+    "employee_nik"
+  ],
+  "rls": {
+    "create": {
+      "$or": [
+        {
+          "data.employee_nik": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "read": {
+      "$or": [
+        {
+          "data.employee_nik": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "update": {
+      "$or": [
+        {
+          "data.employee_nik": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

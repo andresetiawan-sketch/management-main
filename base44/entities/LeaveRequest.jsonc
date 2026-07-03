@@ -1,0 +1,148 @@
+{
+  "name": "LeaveRequest",
+  "type": "object",
+  "properties": {
+    "nik_karyawan": {
+      "type": "string"
+    },
+    "nama_karyawan": {
+      "type": "string"
+    },
+    "jabatan": {
+      "type": "string"
+    },
+    "area_tugas": {
+      "type": "string"
+    },
+    "jenis_cuti": {
+      "type": "string",
+      "enum": [
+        "Cuti Tahunan",
+        "Cuti Sakit",
+        "Cuti Melahirkan",
+        "Cuti Darurat",
+        "Cuti Lainnya"
+      ]
+    },
+    "tanggal_mulai": {
+      "type": "string",
+      "format": "date"
+    },
+    "tanggal_selesai": {
+      "type": "string",
+      "format": "date"
+    },
+    "jumlah_hari": {
+      "type": "number"
+    },
+    "alasan": {
+      "type": "string"
+    },
+    "dokumen_pendukung": {
+      "type": "string",
+      "description": "URL file dokumen pendukung"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "Pending Leader",
+        "Pending Supervisor",
+        "Disetujui",
+        "Ditolak"
+      ],
+      "default": "Pending Leader"
+    },
+    "catatan_atasan": {
+      "type": "string"
+    },
+    "nik_approver_leader": {
+      "type": "string"
+    },
+    "nama_approver_leader": {
+      "type": "string"
+    },
+    "tanggal_approval_leader": {
+      "type": "string"
+    },
+    "catatan_leader": {
+      "type": "string"
+    },
+    "nik_approver_supervisor": {
+      "type": "string"
+    },
+    "nama_approver_supervisor": {
+      "type": "string"
+    },
+    "tanggal_approval_supervisor": {
+      "type": "string"
+    },
+    "catatan_supervisor": {
+      "type": "string"
+    },
+    "nik_approver": {
+      "type": "string"
+    },
+    "nama_approver": {
+      "type": "string"
+    },
+    "tanggal_approval": {
+      "type": "string",
+      "format": "date"
+    }
+  },
+  "required": [
+    "nik_karyawan",
+    "jenis_cuti",
+    "tanggal_mulai",
+    "tanggal_selesai"
+  ],
+  "rls": {
+    "create": {
+      "$or": [
+        {
+          "data.nik_karyawan": "{{user.nik_karyawan}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "read": {
+      "$or": [
+        {
+          "data.nik_karyawan": "{{user.nik_karyawan}}"
+        },
+        {
+          "data.area_tugas": "{{user.area_tugas}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "update": {
+      "$or": [
+        {
+          "data.nik_karyawan": "{{user.nik_karyawan}}"
+        },
+        {
+          "data.area_tugas": "{{user.area_tugas}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

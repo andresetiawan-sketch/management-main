@@ -1,0 +1,103 @@
+{
+  "name": "EPatrolCustom",
+  "type": "object",
+  "properties": {
+    "template_id": {
+      "type": "string",
+      "description": "ID EPatrolTemplate yang digunakan"
+    },
+    "template_nama": {
+      "type": "string"
+    },
+    "nik_karyawan": {
+      "type": "string"
+    },
+    "nama_karyawan": {
+      "type": "string"
+    },
+    "jabatan": {
+      "type": "string"
+    },
+    "area_tugas": {
+      "type": "string"
+    },
+    "tanggal": {
+      "type": "string",
+      "format": "date"
+    },
+    "waktu": {
+      "type": "string"
+    },
+    "checkpoint": {
+      "type": "string"
+    },
+    "kondisi": {
+      "type": "string"
+    },
+    "foto_entries": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "label": {
+            "type": "string"
+          },
+          "foto_url": {
+            "type": "string"
+          },
+          "keterangan": {
+            "type": "string"
+          }
+        }
+      },
+      "description": "Array foto beserta keterangan per checkpoint scan"
+    },
+    "catatan": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "template_id",
+    "nik_karyawan",
+    "tanggal",
+    "area_tugas"
+  ],
+  "rls": {
+    "create": null,
+    "read": {
+      "$or": [
+        {
+          "data.nik_karyawan": "{{user.data.nik_karyawan}}"
+        },
+        {
+          "data.area_tugas": "{{user.data.area_tugas}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "update": {
+      "$or": [
+        {
+          "data.nik_karyawan": "{{user.data.nik_karyawan}}"
+        },
+        {
+          "data.area_tugas": "{{user.data.area_tugas}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

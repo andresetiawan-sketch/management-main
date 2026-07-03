@@ -1,0 +1,104 @@
+{
+  "name": "Attendance",
+  "type": "object",
+  "properties": {
+    "nik_karyawan": {
+      "type": "string"
+    },
+    "nama_karyawan": {
+      "type": "string"
+    },
+    "area_tugas": {
+      "type": "string"
+    },
+    "tanggal": {
+      "type": "string",
+      "format": "date"
+    },
+    "jam_hadir": {
+      "type": "string"
+    },
+    "jam_pulang": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "Hadir",
+        "Backup",
+        "Sakit",
+        "Izin",
+        "Cuti",
+        "Alfa"
+      ]
+    },
+    "foto_hadir": {
+      "type": "string"
+    },
+    "foto_pulang": {
+      "type": "string"
+    },
+    "jabatan": {
+      "type": "string"
+    },
+    "regu": {
+      "type": "string"
+    },
+    "shift_id": {
+      "type": "string",
+      "description": "Referensi ke jadwal shift"
+    },
+    "tipe_shift": {
+      "type": "string"
+    },
+    "jam_shift_mulai": {
+      "type": "string"
+    },
+    "jam_shift_selesai": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "nik_karyawan",
+    "tanggal",
+    "status"
+  ],
+  "rls": {
+    "create": null,
+    "read": {
+      "$or": [
+        {
+          "data.nik_karyawan": "{{user.data.nik_karyawan}}"
+        },
+        {
+          "data.area_tugas": "{{user.data.area_tugas}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "update": {
+      "$or": [
+        {
+          "data.nik_karyawan": "{{user.data.nik_karyawan}}"
+        },
+        {
+          "data.area_tugas": "{{user.data.area_tugas}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

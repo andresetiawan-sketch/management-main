@@ -1,0 +1,66 @@
+{
+  "name": "EPatrolTemplate",
+  "type": "object",
+  "properties": {
+    "nama_template": {
+      "type": "string",
+      "description": "Nama template, contoh: E-Patroli 2 Foto"
+    },
+    "jumlah_foto": {
+      "type": "number",
+      "description": "Jumlah foto yang harus diinput"
+    },
+    "foto_configs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "label": {
+            "type": "string"
+          },
+          "riwayat_keterangan": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "description": "Konfigurasi setiap foto: label dan riwayat keterangan"
+    },
+    "area_tugas": {
+      "type": "string",
+      "description": "Area yang menggunakan template ini (kosong = semua area)"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "Aktif",
+        "Non-Aktif"
+      ],
+      "default": "Aktif"
+    }
+  },
+  "required": [
+    "nama_template",
+    "jumlah_foto"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": null,
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

@@ -1,0 +1,204 @@
+{
+  "name": "ShiftHandover",
+  "type": "object",
+  "properties": {
+    "area_tugas": {
+      "type": "string"
+    },
+    "tanggal": {
+      "type": "string",
+      "format": "date"
+    },
+    "shift_selesai": {
+      "type": "string",
+      "enum": [
+        "Pagi",
+        "Siang",
+        "Malam"
+      ]
+    },
+    "shift_berikutnya": {
+      "type": "string",
+      "enum": [
+        "Pagi",
+        "Siang",
+        "Malam"
+      ]
+    },
+    "nik_lepas": {
+      "type": "string"
+    },
+    "nama_lepas": {
+      "type": "string"
+    },
+    "jabatan_lepas": {
+      "type": "string"
+    },
+    "nik_terima": {
+      "type": "string"
+    },
+    "nama_terima": {
+      "type": "string"
+    },
+    "jabatan_terima": {
+      "type": "string"
+    },
+    "kondisi_pos": {
+      "type": "string",
+      "enum": [
+        "Normal",
+        "Ada Kejadian",
+        "Perlu Perhatian"
+      ],
+      "default": "Normal"
+    },
+    "ringkasan_kejadian": {
+      "type": "string"
+    },
+    "catatan_checklist": {
+      "type": "string"
+    },
+    "catatan_kegiatan": {
+      "type": "string"
+    },
+    "kendala_lapangan": {
+      "type": "array",
+      "description": "Daftar kendala lapangan yang terjadi selama shift",
+      "items": {
+        "type": "object",
+        "properties": {
+          "deskripsi": {
+            "type": "string"
+          },
+          "kategori": {
+            "type": "string"
+          },
+          "tingkat": {
+            "type": "string"
+          },
+          "tindakan": {
+            "type": "string"
+          },
+          "sudah_selesai": {
+            "type": "boolean"
+          }
+        }
+      }
+    },
+    "inventaris_serahterima": {
+      "type": "array",
+      "description": "Daftar inventaris/perlengkapan yang diserahterimakan",
+      "items": {
+        "type": "object",
+        "properties": {
+          "nama_item": {
+            "type": "string"
+          },
+          "jumlah": {
+            "type": "number"
+          },
+          "kondisi": {
+            "type": "string"
+          },
+          "catatan": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "perlengkapan_lengkap": {
+      "type": "boolean",
+      "default": true
+    },
+    "catatan_perlengkapan": {
+      "type": "string"
+    },
+    "hal_perlu_diperhatikan": {
+      "type": "string"
+    },
+    "ttd_lepas": {
+      "type": "string",
+      "description": "Nama terang petugas lepas tugas"
+    },
+    "ttd_terima": {
+      "type": "string",
+      "description": "Nama terang petugas terima tugas"
+    },
+    "waktu_serah_terima": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "Menunggu Tanda Tangan",
+        "Selesai"
+      ],
+      "default": "Menunggu Tanda Tangan"
+    },
+    "checklist_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "ID DailyChecklist yang terkait"
+    },
+    "laporan_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "ID LaporanHarian yang terkait"
+    }
+  },
+  "required": [
+    "area_tugas",
+    "tanggal",
+    "shift_selesai",
+    "nik_lepas",
+    "nama_lepas"
+  ],
+  "rls": {
+    "create": null,
+    "read": {
+      "$or": [
+        {
+          "data.nik_lepas": "{{user.data.nik_karyawan}}"
+        },
+        {
+          "data.nik_terima": "{{user.data.nik_karyawan}}"
+        },
+        {
+          "data.area_tugas": "{{user.data.area_tugas}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "update": {
+      "$or": [
+        {
+          "data.nik_lepas": "{{user.data.nik_karyawan}}"
+        },
+        {
+          "data.nik_terima": "{{user.data.nik_karyawan}}"
+        },
+        {
+          "data.area_tugas": "{{user.data.area_tugas}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

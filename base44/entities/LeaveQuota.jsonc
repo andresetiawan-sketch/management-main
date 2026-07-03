@@ -1,0 +1,56 @@
+{
+  "name": "LeaveQuota",
+  "type": "object",
+  "properties": {
+    "nik_karyawan": {
+      "type": "string"
+    },
+    "nama_karyawan": {
+      "type": "string"
+    },
+    "tahun": {
+      "type": "number"
+    },
+    "kuota_total": {
+      "type": "number",
+      "default": 12
+    },
+    "kuota_terpakai": {
+      "type": "number",
+      "default": 0
+    }
+  },
+  "required": [
+    "nik_karyawan",
+    "tahun"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": {
+      "$or": [
+        {
+          "data.nik_karyawan": "{{user.data.nik_karyawan}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

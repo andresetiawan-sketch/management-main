@@ -1,0 +1,112 @@
+{
+  "name": "LoanRecord",
+  "type": "object",
+  "properties": {
+    "kode_barang": {
+      "type": "string"
+    },
+    "nama_barang": {
+      "type": "string"
+    },
+    "nik_peminjam": {
+      "type": "string"
+    },
+    "nama_peminjam": {
+      "type": "string"
+    },
+    "area_tugas": {
+      "type": "string"
+    },
+    "tanggal_pinjam": {
+      "type": "string",
+      "format": "date"
+    },
+    "tanggal_kembali_rencana": {
+      "type": "string",
+      "format": "date"
+    },
+    "tanggal_kembali_aktual": {
+      "type": "string",
+      "format": "date"
+    },
+    "kondisi_pinjam": {
+      "type": "string",
+      "enum": [
+        "Baik",
+        "Cukup",
+        "Rusak"
+      ],
+      "default": "Baik"
+    },
+    "kondisi_kembali": {
+      "type": "string",
+      "enum": [
+        "Baik",
+        "Cukup",
+        "Rusak"
+      ]
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "Dipinjam",
+        "Dikembalikan"
+      ],
+      "default": "Dipinjam"
+    },
+    "catatan": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "kode_barang",
+    "nik_peminjam",
+    "tanggal_pinjam"
+  ],
+  "rls": {
+    "create": {
+      "$or": [
+        {
+          "data.nik_peminjam": "{{user.data.nik_karyawan}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "read": {
+      "$or": [
+        {
+          "data.nik_peminjam": "{{user.data.nik_karyawan}}"
+        },
+        {
+          "data.area_tugas": "{{user.data.area_tugas}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "update": {
+      "$or": [
+        {
+          "data.nik_peminjam": "{{user.data.nik_karyawan}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

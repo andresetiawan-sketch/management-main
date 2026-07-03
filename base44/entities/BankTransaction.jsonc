@@ -1,0 +1,64 @@
+{
+  "name": "BankTransaction",
+  "type": "object",
+  "properties": {
+    "area_tugas": {
+      "type": "string",
+      "description": "Area / proyek terkait"
+    },
+    "tipe": {
+      "type": "string",
+      "enum": [
+        "Bank In (Pemasukan)",
+        "Bank Out (Pengeluaran)"
+      ],
+      "default": "Bank In (Pemasukan)"
+    },
+    "bank": {
+      "type": "string",
+      "description": "Nama bank"
+    },
+    "jumlah": {
+      "type": "number",
+      "description": "Jumlah transaksi (Rupiah)"
+    },
+    "tanggal": {
+      "type": "string",
+      "format": "date"
+    },
+    "nomor_referensi": {
+      "type": "string",
+      "description": "No. invoice / transfer / referensi"
+    },
+    "keterangan": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "area_tugas",
+    "jumlah",
+    "tanggal"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

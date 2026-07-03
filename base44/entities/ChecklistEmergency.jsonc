@@ -1,0 +1,83 @@
+{
+  "name": "ChecklistEmergency",
+  "type": "object",
+  "properties": {
+    "nik_karyawan": {
+      "type": "string"
+    },
+    "nama_karyawan": {
+      "type": "string"
+    },
+    "area_tugas": {
+      "type": "string"
+    },
+    "tanggal": {
+      "type": "string",
+      "format": "date"
+    },
+    "lokasi_box": {
+      "type": "string"
+    },
+    "kondisi": {
+      "type": "string",
+      "enum": [
+        "Baik",
+        "Rusak",
+        "Perlu Maintenance"
+      ]
+    },
+    "isi_lengkap": {
+      "type": "boolean",
+      "default": true
+    },
+    "foto": {
+      "type": "string"
+    },
+    "catatan": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "nik_karyawan",
+    "tanggal",
+    "area_tugas"
+  ],
+  "rls": {
+    "create": null,
+    "read": {
+      "$or": [
+        {
+          "data.nik_karyawan": "{{user.data.nik_karyawan}}"
+        },
+        {
+          "data.area_tugas": "{{user.data.area_tugas}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "update": {
+      "$or": [
+        {
+          "data.nik_karyawan": "{{user.data.nik_karyawan}}"
+        },
+        {
+          "data.area_tugas": "{{user.data.area_tugas}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

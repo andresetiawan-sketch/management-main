@@ -1,0 +1,24 @@
+{
+  "name": "app-pis-worker",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "src/index.js",
+  "scripts": {
+    "dev": "wrangler dev src/index.js",
+    "deploy:staging": "wrangler deploy --env staging",
+    "deploy:production": "wrangler deploy --env production",
+    "migrations:create": "wrangler d1 migrations create app-pis-main",
+    "build": "esbuild src/index.js --bundle --minify --outfile=dist/index.js --platform=neutral",
+    "test": "vitest",
+    "test:watch": "vitest --watch"
+  },
+  "dependencies": {
+    "itty-router": "^4.0.0",
+    "wrangler": "^3.71.0"
+  },
+  "devDependencies": {
+    "esbuild": "^0.23.0",
+    "vitest": "^1.6.0",
+    "@types/node": "^20.16.0"
+  }
+}

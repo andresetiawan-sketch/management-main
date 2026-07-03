@@ -1,0 +1,150 @@
+{
+  "name": "LaporanHarian",
+  "type": "object",
+  "properties": {
+    "nama_staf": {
+      "type": "string"
+    },
+    "nik_karyawan": {
+      "type": "string"
+    },
+    "area_tugas": {
+      "type": "string"
+    },
+    "tanggal": {
+      "type": "string",
+      "format": "date"
+    },
+    "area_masuk_lobby": {
+      "type": "string",
+      "enum": [
+        "Ya",
+        "Tidak",
+        "NA"
+      ],
+      "default": "Ya"
+    },
+    "area_kerja_unit": {
+      "type": "string",
+      "enum": [
+        "Ya",
+        "Tidak",
+        "NA"
+      ],
+      "default": "Ya"
+    },
+    "area_umum_fasilitas": {
+      "type": "string",
+      "enum": [
+        "Ya",
+        "Tidak",
+        "NA"
+      ],
+      "default": "Ya"
+    },
+    "keterangan_checklist": {
+      "type": "string"
+    },
+    "kegiatan": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "deskripsi": {
+            "type": "string"
+          },
+          "foto": {
+            "type": "string"
+          }
+        }
+      },
+      "description": "Kegiatan harian (maks 3)"
+    },
+    "biaya": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "nama_barang": {
+            "type": "string"
+          },
+          "nominal": {
+            "type": "number"
+          },
+          "foto_struk": {
+            "type": "string"
+          }
+        }
+      },
+      "description": "Biaya operasional harian"
+    },
+    "kendala": {
+      "type": "string"
+    },
+    "tindak_lanjut": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "Draft",
+        "Submitted"
+      ],
+      "default": "Draft"
+    }
+  },
+  "required": [
+    "nama_staf",
+    "tanggal",
+    "area_tugas"
+  ],
+  "rls": {
+    "create": {
+      "$or": [
+        {
+          "data.nik_karyawan": "{{user.data.nik_karyawan}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "read": {
+      "$or": [
+        {
+          "data.nik_karyawan": "{{user.data.nik_karyawan}}"
+        },
+        {
+          "data.area_tugas": "{{user.data.area_tugas}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "update": {
+      "$or": [
+        {
+          "data.nik_karyawan": "{{user.data.nik_karyawan}}"
+        },
+        {
+          "data.area_tugas": "{{user.data.area_tugas}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

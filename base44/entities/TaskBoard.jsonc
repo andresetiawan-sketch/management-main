@@ -1,0 +1,127 @@
+{
+  "name": "TaskBoard",
+  "type": "object",
+  "properties": {
+    "judul": {
+      "type": "string",
+      "description": "Judul tugas"
+    },
+    "deskripsi": {
+      "type": "string"
+    },
+    "area_tugas": {
+      "type": "string"
+    },
+    "regu": {
+      "type": "string",
+      "enum": [
+        "Regu A",
+        "Regu B",
+        "Regu C",
+        "Regu D",
+        "Non Regu"
+      ]
+    },
+    "nik_assignee": {
+      "type": "string"
+    },
+    "nama_assignee": {
+      "type": "string"
+    },
+    "nik_pemberi": {
+      "type": "string"
+    },
+    "nama_pemberi": {
+      "type": "string"
+    },
+    "tanggal_tugas": {
+      "type": "string",
+      "format": "date"
+    },
+    "tanggal_deadline": {
+      "type": "string",
+      "format": "date"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "To Do",
+        "In Progress",
+        "Done"
+      ],
+      "default": "To Do"
+    },
+    "prioritas": {
+      "type": "string",
+      "enum": [
+        "Rendah",
+        "Sedang",
+        "Tinggi"
+      ],
+      "default": "Sedang"
+    },
+    "rating": {
+      "type": "number",
+      "description": "Rating 1-5 setelah selesai"
+    },
+    "catatan_penyelesaian": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "judul",
+    "area_tugas",
+    "regu"
+  ],
+  "rls": {
+    "create": null,
+    "read": {
+      "$or": [
+        {
+          "data.nik_assignee": "{{user.data.nik_karyawan}}"
+        },
+        {
+          "data.nik_pemberi": "{{user.data.nik_karyawan}}"
+        },
+        {
+          "data.area_tugas": "{{user.data.area_tugas}}"
+        },
+        {
+          "data.regu": "{{user.data.regu}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "update": {
+      "$or": [
+        {
+          "data.nik_assignee": "{{user.data.nik_karyawan}}"
+        },
+        {
+          "data.nik_pemberi": "{{user.data.nik_karyawan}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "$or": [
+        {
+          "data.nik_pemberi": "{{user.data.nik_karyawan}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    }
+  }
+}

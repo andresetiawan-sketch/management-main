@@ -1,0 +1,101 @@
+{
+  "name": "PanicAlert",
+  "type": "object",
+  "properties": {
+    "nik_karyawan": {
+      "type": "string"
+    },
+    "nama_karyawan": {
+      "type": "string"
+    },
+    "jabatan": {
+      "type": "string"
+    },
+    "area_tugas": {
+      "type": "string"
+    },
+    "latitude": {
+      "type": "number"
+    },
+    "longitude": {
+      "type": "number"
+    },
+    "alamat_lokasi": {
+      "type": "string"
+    },
+    "waktu_darurat": {
+      "type": "string"
+    },
+    "deskripsi": {
+      "type": "string"
+    },
+    "foto_kejadian": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "Aktif",
+        "Direspons",
+        "Selesai"
+      ],
+      "default": "Aktif"
+    },
+    "responder_nama": {
+      "type": "string"
+    },
+    "responder_nik": {
+      "type": "string"
+    },
+    "catatan_responder": {
+      "type": "string"
+    },
+    "waktu_respons": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "nik_karyawan",
+    "nama_karyawan",
+    "area_tugas",
+    "waktu_darurat"
+  ],
+  "rls": {
+    "create": null,
+    "read": {
+      "$or": [
+        {
+          "data.nik_karyawan": "{{user.data.nik_karyawan}}"
+        },
+        {
+          "data.area_tugas": "{{user.data.area_tugas}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "update": {
+      "$or": [
+        {
+          "data.nik_karyawan": "{{user.data.nik_karyawan}}"
+        },
+        {
+          "data.area_tugas": "{{user.data.area_tugas}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

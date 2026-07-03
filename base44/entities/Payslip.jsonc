@@ -1,0 +1,194 @@
+{
+  "name": "Payslip",
+  "type": "object",
+  "properties": {
+    "nik_karyawan": {
+      "type": "string"
+    },
+    "nama_karyawan": {
+      "type": "string"
+    },
+    "jabatan": {
+      "type": "string"
+    },
+    "entity_pt": {
+      "type": "string"
+    },
+    "area_tugas": {
+      "type": "string"
+    },
+    "branch": {
+      "type": "string"
+    },
+    "bank": {
+      "type": "string"
+    },
+    "no_rekening": {
+      "type": "string"
+    },
+    "periode": {
+      "type": "string",
+      "description": "Bulan/Tahun slip gaji"
+    },
+    "basic_salary": {
+      "type": "number",
+      "default": 0
+    },
+    "adjustment_salary": {
+      "type": "number",
+      "default": 0
+    },
+    "allowance_kehadiran": {
+      "type": "number",
+      "default": 0
+    },
+    "adjustment_new_employee": {
+      "type": "number",
+      "default": 0
+    },
+    "allowance_jabatan": {
+      "type": "number",
+      "default": 0
+    },
+    "allowance_transport": {
+      "type": "number",
+      "default": 0
+    },
+    "allowance_acting": {
+      "type": "number",
+      "default": 0
+    },
+    "allowance_pulsa": {
+      "type": "number",
+      "default": 0
+    },
+    "jht_company": {
+      "type": "number",
+      "default": 0
+    },
+    "jkk_company": {
+      "type": "number",
+      "default": 0
+    },
+    "jkm_company": {
+      "type": "number",
+      "default": 0
+    },
+    "bpjs_kes_company": {
+      "type": "number",
+      "default": 0
+    },
+    "tunjangan_pensiun": {
+      "type": "number",
+      "default": 0
+    },
+    "long_shift": {
+      "type": "number",
+      "default": 0
+    },
+    "premi_in": {
+      "type": "number",
+      "default": 0
+    },
+    "ins_produktifitas": {
+      "type": "number",
+      "default": 0
+    },
+    "total_allowance": {
+      "type": "number",
+      "default": 0
+    },
+    "ded_ketidakhadiran": {
+      "type": "number",
+      "default": 0
+    },
+    "ded_pembayaran_lain": {
+      "type": "number",
+      "default": 0
+    },
+    "ded_jht_37": {
+      "type": "number",
+      "default": 0
+    },
+    "ded_jht_employee": {
+      "type": "number",
+      "default": 0
+    },
+    "ded_jkk": {
+      "type": "number",
+      "default": 0
+    },
+    "ded_jkm": {
+      "type": "number",
+      "default": 0
+    },
+    "ded_bpjs_kes": {
+      "type": "number",
+      "default": 0
+    },
+    "ded_iuran_pensiun": {
+      "type": "number",
+      "default": 0
+    },
+    "ded_iuran_pensiun_karyawan": {
+      "type": "number",
+      "default": 0
+    },
+    "ded_premi_out": {
+      "type": "number",
+      "default": 0
+    },
+    "ded_tax": {
+      "type": "number",
+      "default": 0
+    },
+    "total_deduction": {
+      "type": "number",
+      "default": 0
+    },
+    "gaji_bersih": {
+      "type": "number",
+      "default": 0
+    },
+    "gaji_diterima": {
+      "type": "number",
+      "default": 0
+    },
+    "terbilang": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "nik_karyawan",
+    "periode"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": {
+      "$or": [
+        {
+          "data.nik_karyawan": "{{user.data.nik_karyawan}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

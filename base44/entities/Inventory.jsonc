@@ -1,0 +1,117 @@
+{
+  "name": "Inventory",
+  "type": "object",
+  "properties": {
+    "kode_barang": {
+      "type": "string",
+      "description": "Kode unik barang"
+    },
+    "nama_barang": {
+      "type": "string"
+    },
+    "kategori": {
+      "type": "string",
+      "enum": [
+        "Elektronik",
+        "Kendaraan",
+        "Peralatan",
+        "Seragam",
+        "Komunikasi",
+        "Lainnya"
+      ]
+    },
+    "deskripsi": {
+      "type": "string"
+    },
+    "kondisi": {
+      "type": "string",
+      "enum": [
+        "Baik",
+        "Cukup",
+        "Rusak"
+      ],
+      "default": "Baik"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "Tersedia",
+        "Dipinjam",
+        "Maintenance"
+      ],
+      "default": "Tersedia"
+    },
+    "lokasi_penyimpanan": {
+      "type": "string"
+    },
+    "area_tugas": {
+      "type": "string",
+      "description": "Area tempat barang berada"
+    },
+    "stok": {
+      "type": "number",
+      "default": 1
+    },
+    "stok_minimum": {
+      "type": "number",
+      "default": 1
+    },
+    "foto": {
+      "type": "string"
+    },
+    "nik_peminjam": {
+      "type": "string"
+    },
+    "nama_peminjam": {
+      "type": "string"
+    },
+    "nfc_tag_id": {
+      "type": "string",
+      "description": "ID tag NFC yang ditempelkan pada aset"
+    },
+    "qr_code_data": {
+      "type": "string",
+      "description": "Data untuk QR Code aset"
+    }
+  },
+  "required": [
+    "nama_barang",
+    "kode_barang"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": {
+      "$or": [
+        {
+          "data.area_tugas": "{{user.data.area_tugas}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "update": {
+      "$or": [
+        {
+          "data.area_tugas": "{{user.data.area_tugas}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

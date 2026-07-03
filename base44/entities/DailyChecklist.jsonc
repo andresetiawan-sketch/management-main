@@ -1,0 +1,411 @@
+{
+  "name": "DailyChecklist",
+  "type": "object",
+  "properties": {
+    "nik_karyawan": {
+      "type": "string"
+    },
+    "nama_karyawan": {
+      "type": "string"
+    },
+    "jabatan": {
+      "type": "string"
+    },
+    "area_tugas": {
+      "type": "string"
+    },
+    "tanggal": {
+      "type": "string",
+      "format": "date"
+    },
+    "shift": {
+      "type": "string",
+      "enum": [
+        "Pagi",
+        "Siang",
+        "Malam"
+      ]
+    },
+    "penerima_serah_terima": {
+      "type": "string",
+      "description": "Nama penerima serah terima tugas"
+    },
+    "ttd_penyerah": {
+      "type": "string",
+      "description": "Tanda tangan digital penyerah (base64 PNG)"
+    },
+    "ttd_penerima": {
+      "type": "string",
+      "description": "Tanda tangan digital penerima (base64 PNG)"
+    },
+    "nik_supervisor": {
+      "type": "string"
+    },
+    "nama_supervisor": {
+      "type": "string"
+    },
+    "serah_terima": {
+      "type": "object",
+      "description": "Checklist Serah Terima & Persiapan",
+      "properties": {
+        "seragam_lengkap": {
+          "type": "string",
+          "enum": [
+            "Ya",
+            "Tidak",
+            "-"
+          ],
+          "default": "-"
+        },
+        "id_card": {
+          "type": "string",
+          "enum": [
+            "Ya",
+            "Tidak",
+            "-"
+          ],
+          "default": "-"
+        },
+        "ht_berfungsi": {
+          "type": "string",
+          "enum": [
+            "Ya",
+            "Tidak",
+            "-"
+          ],
+          "default": "-"
+        },
+        "senter_berfungsi": {
+          "type": "string",
+          "enum": [
+            "Ya",
+            "Tidak",
+            "-"
+          ],
+          "default": "-"
+        },
+        "buku_mutasi_tersedia": {
+          "type": "string",
+          "enum": [
+            "Ya",
+            "Tidak",
+            "-"
+          ],
+          "default": "-"
+        },
+        "absensi_terisi": {
+          "type": "string",
+          "enum": [
+            "Ya",
+            "Tidak",
+            "-"
+          ],
+          "default": "-"
+        },
+        "serah_terima_dilakukan": {
+          "type": "string",
+          "enum": [
+            "Ya",
+            "Tidak",
+            "-"
+          ],
+          "default": "-"
+        },
+        "keterangan": {
+          "type": "string"
+        }
+      }
+    },
+    "patroli_area": {
+      "type": "object",
+      "description": "Checklist Patroli Area",
+      "properties": {
+        "kunci_pintu_aman": {
+          "type": "string",
+          "enum": [
+            "Ya",
+            "Tidak",
+            "-"
+          ],
+          "default": "-"
+        },
+        "jendela_aman": {
+          "type": "string",
+          "enum": [
+            "Ya",
+            "Tidak",
+            "-"
+          ],
+          "default": "-"
+        },
+        "lampu_area_berfungsi": {
+          "type": "string",
+          "enum": [
+            "Ya",
+            "Tidak",
+            "-"
+          ],
+          "default": "-"
+        },
+        "apar_kondisi_baik": {
+          "type": "string",
+          "enum": [
+            "Ya",
+            "Tidak",
+            "-"
+          ],
+          "default": "-"
+        },
+        "potensi_bahaya_ditemukan": {
+          "type": "string",
+          "enum": [
+            "Ya",
+            "Tidak",
+            "-"
+          ],
+          "default": "-"
+        },
+        "cctv_berfungsi": {
+          "type": "string",
+          "enum": [
+            "Ya",
+            "Tidak",
+            "-"
+          ],
+          "default": "-"
+        },
+        "area_steril": {
+          "type": "string",
+          "enum": [
+            "Ya",
+            "Tidak",
+            "-"
+          ],
+          "default": "-"
+        },
+        "keterangan": {
+          "type": "string"
+        }
+      }
+    },
+    "akses_keluar_masuk": {
+      "type": "object",
+      "description": "Checklist Akses Keluar Masuk",
+      "properties": {
+        "tamu_diperiksa": {
+          "type": "string",
+          "enum": [
+            "Ya",
+            "Tidak",
+            "-"
+          ],
+          "default": "-"
+        },
+        "buku_tamu_terisi": {
+          "type": "string",
+          "enum": [
+            "Ya",
+            "Tidak",
+            "-"
+          ],
+          "default": "-"
+        },
+        "karyawan_diverifikasi": {
+          "type": "string",
+          "enum": [
+            "Ya",
+            "Tidak",
+            "-"
+          ],
+          "default": "-"
+        },
+        "kendaraan_diperiksa": {
+          "type": "string",
+          "enum": [
+            "Ya",
+            "Tidak",
+            "-"
+          ],
+          "default": "-"
+        },
+        "barang_masuk_dicatat": {
+          "type": "string",
+          "enum": [
+            "Ya",
+            "Tidak",
+            "-"
+          ],
+          "default": "-"
+        },
+        "barang_keluar_dicatat": {
+          "type": "string",
+          "enum": [
+            "Ya",
+            "Tidak",
+            "-"
+          ],
+          "default": "-"
+        },
+        "keterangan": {
+          "type": "string"
+        }
+      }
+    },
+    "ketertiban_parkir": {
+      "type": "object",
+      "description": "Checklist Ketertiban & Parkir",
+      "properties": {
+        "lalulintas_diatur": {
+          "type": "string",
+          "enum": [
+            "Ya",
+            "Tidak",
+            "-"
+          ],
+          "default": "-"
+        },
+        "parkir_tertib": {
+          "type": "string",
+          "enum": [
+            "Ya",
+            "Tidak",
+            "-"
+          ],
+          "default": "-"
+        },
+        "area_sterilisasi_aman": {
+          "type": "string",
+          "enum": [
+            "Ya",
+            "Tidak",
+            "-"
+          ],
+          "default": "-"
+        },
+        "tidak_ada_parkir_liar": {
+          "type": "string",
+          "enum": [
+            "Ya",
+            "Tidak",
+            "-"
+          ],
+          "default": "-"
+        },
+        "akses_darurat_bebas": {
+          "type": "string",
+          "enum": [
+            "Ya",
+            "Tidak",
+            "-"
+          ],
+          "default": "-"
+        },
+        "keterangan": {
+          "type": "string"
+        }
+      }
+    },
+    "laporan_akhir": {
+      "type": "object",
+      "description": "Checklist Laporan Akhir Shift",
+      "properties": {
+        "buku_mutasi_terisi": {
+          "type": "string",
+          "enum": [
+            "Ya",
+            "Tidak",
+            "-"
+          ],
+          "default": "-"
+        },
+        "kejadian_dilaporkan": {
+          "type": "string",
+          "enum": [
+            "Ya",
+            "Tidak",
+            "Tidak Ada Kejadian"
+          ],
+          "default": "Tidak Ada Kejadian"
+        },
+        "serah_terima_berikutnya": {
+          "type": "string",
+          "enum": [
+            "Ya",
+            "Tidak",
+            "-"
+          ],
+          "default": "-"
+        },
+        "ringkasan_kejadian": {
+          "type": "string"
+        },
+        "keterangan": {
+          "type": "string"
+        }
+      }
+    },
+    "nilai_supervisor": {
+      "type": "number",
+      "description": "Nilai evaluasi 1-100"
+    },
+    "catatan_supervisor": {
+      "type": "string"
+    },
+    "status_evaluasi": {
+      "type": "string",
+      "enum": [
+        "Menunggu Evaluasi",
+        "Sudah Dievaluasi"
+      ],
+      "default": "Menunggu Evaluasi"
+    },
+    "tanda_tangan_supervisor": {
+      "type": "string",
+      "description": "Nama terang supervisor"
+    }
+  },
+  "required": [
+    "nik_karyawan",
+    "tanggal",
+    "shift",
+    "area_tugas"
+  ],
+  "rls": {
+    "create": null,
+    "read": {
+      "$or": [
+        {
+          "data.nik_karyawan": "{{user.data.nik_karyawan}}"
+        },
+        {
+          "data.area_tugas": "{{user.data.area_tugas}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "update": {
+      "$or": [
+        {
+          "data.nik_karyawan": "{{user.data.nik_karyawan}}"
+        },
+        {
+          "data.area_tugas": "{{user.data.area_tugas}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

@@ -1,0 +1,52 @@
+{
+  "name": "TicketComment",
+  "type": "object",
+  "properties": {
+    "ticket_id": {
+      "type": "string",
+      "description": "ID FacilityTicket"
+    },
+    "nik_pengirim": {
+      "type": "string"
+    },
+    "nama_pengirim": {
+      "type": "string"
+    },
+    "jabatan_pengirim": {
+      "type": "string"
+    },
+    "pesan": {
+      "type": "string"
+    },
+    "foto_url": {
+      "type": "string",
+      "description": "URL foto opsional"
+    }
+  },
+  "required": [
+    "ticket_id",
+    "nik_pengirim",
+    "pesan"
+  ],
+  "rls": {
+    "create": null,
+    "read": {
+      "$or": [
+        {
+          "data.nik_pengirim": "{{user.data.nik_karyawan}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "update": {
+      "data.nik_pengirim": "{{user.data.nik_karyawan}}"
+    },
+    "delete": {
+      "data.nik_pengirim": "{{user.data.nik_karyawan}}"
+    }
+  }
+}

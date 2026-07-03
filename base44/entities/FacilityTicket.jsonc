@@ -1,0 +1,121 @@
+{
+  "name": "FacilityTicket",
+  "type": "object",
+  "properties": {
+    "judul": {
+      "type": "string"
+    },
+    "deskripsi": {
+      "type": "string"
+    },
+    "area_tugas": {
+      "type": "string"
+    },
+    "lokasi_kerusakan": {
+      "type": "string"
+    },
+    "nik_pelapor": {
+      "type": "string"
+    },
+    "nama_pelapor": {
+      "type": "string"
+    },
+    "jabatan_pelapor": {
+      "type": "string"
+    },
+    "tanggal_lapor": {
+      "type": "string",
+      "format": "date"
+    },
+    "foto_kerusakan": {
+      "type": "string"
+    },
+    "foto_perbaikan": {
+      "type": "string"
+    },
+    "foto_selesai": {
+      "type": "string"
+    },
+    "prioritas": {
+      "type": "string",
+      "enum": [
+        "Rendah",
+        "Sedang",
+        "Tinggi",
+        "Darurat"
+      ],
+      "default": "Sedang"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "Baru",
+        "Perbaikan",
+        "Selesai"
+      ],
+      "default": "Baru"
+    },
+    "nik_teknisi": {
+      "type": "string"
+    },
+    "nama_teknisi": {
+      "type": "string"
+    },
+    "catatan_teknisi": {
+      "type": "string"
+    },
+    "tanggal_selesai": {
+      "type": "string",
+      "format": "date"
+    }
+  },
+  "required": [
+    "judul",
+    "area_tugas",
+    "nik_pelapor"
+  ],
+  "rls": {
+    "create": null,
+    "read": {
+      "$or": [
+        {
+          "data.nik_pelapor": "{{user.data.nik_karyawan}}"
+        },
+        {
+          "data.nik_teknisi": "{{user.data.nik_karyawan}}"
+        },
+        {
+          "data.area_tugas": "{{user.data.area_tugas}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "update": {
+      "$or": [
+        {
+          "data.nik_pelapor": "{{user.data.nik_karyawan}}"
+        },
+        {
+          "data.nik_teknisi": "{{user.data.nik_karyawan}}"
+        },
+        {
+          "data.area_tugas": "{{user.data.area_tugas}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

@@ -1,0 +1,232 @@
+{
+  "name": "Applicant",
+  "type": "object",
+  "properties": {
+    "area_client": {
+      "type": "string",
+      "description": "Area/Client penugasan"
+    },
+    "nama_lengkap": {
+      "type": "string",
+      "description": "Nama lengkap pelamar"
+    },
+    "jenis_kelamin": {
+      "type": "string",
+      "enum": [
+        "Laki-laki",
+        "Perempuan"
+      ]
+    },
+    "nik_ektp": {
+      "type": "string",
+      "description": "NIK E-KTP 16 digit"
+    },
+    "foto_ektp": {
+      "type": "string",
+      "description": "Upload foto E-KTP"
+    },
+    "foto_skck": {
+      "type": "string",
+      "description": "Foto SKCK"
+    },
+    "no_kk": {
+      "type": "string",
+      "description": "Nomor KK"
+    },
+    "foto_kk": {
+      "type": "string",
+      "description": "Foto KK"
+    },
+    "no_npwp": {
+      "type": "string",
+      "description": "Nomor NPWP"
+    },
+    "foto_npwp": {
+      "type": "string",
+      "description": "Foto NPWP"
+    },
+    "sim_type": {
+      "type": "string",
+      "enum": [
+        "SIM A",
+        "SIM B1",
+        "SIM B2",
+        "SIM C",
+        "Tidak Ada"
+      ]
+    },
+    "foto_sim": {
+      "type": "string",
+      "description": "Foto SIM"
+    },
+    "foto_cv": {
+      "type": "string",
+      "description": "Foto CV"
+    },
+    "foto_surat_sehat": {
+      "type": "string",
+      "description": "Foto Surat Sehat"
+    },
+    "tempat_lahir": {
+      "type": "string"
+    },
+    "tanggal_lahir": {
+      "type": "string",
+      "format": "date"
+    },
+    "alamat_ektp": {
+      "type": "string",
+      "description": "Alamat lengkap sesuai E-KTP"
+    },
+    "alamat": {
+      "type": "string"
+    },
+    "rt": {
+      "type": "string"
+    },
+    "rw": {
+      "type": "string"
+    },
+    "kelurahan": {
+      "type": "string"
+    },
+    "kecamatan": {
+      "type": "string"
+    },
+    "kabupaten_kota": {
+      "type": "string"
+    },
+    "provinsi": {
+      "type": "string"
+    },
+    "usia": {
+      "type": "number"
+    },
+    "foto_setengah_badan": {
+      "type": "string"
+    },
+    "email": {
+      "type": "string"
+    },
+    "no_telepon": {
+      "type": "string"
+    },
+    "posisi_diinginkan": {
+      "type": "string"
+    },
+    "branch": {
+      "type": "string"
+    },
+    "tinggi_badan": {
+      "type": "number",
+      "description": "Tinggi badan (cm)"
+    },
+    "berat_badan": {
+      "type": "number",
+      "description": "Berat badan (kg)"
+    },
+    "ukuran_baju": {
+      "type": "string"
+    },
+    "ukuran_sepatu": {
+      "type": "string"
+    },
+    "pendidikan_sd": {
+      "type": "string"
+    },
+    "pendidikan_smp": {
+      "type": "string"
+    },
+    "pendidikan_sma": {
+      "type": "string"
+    },
+    "ijazah_terakhir": {
+      "type": "string"
+    },
+    "pendidikan_eksternal": {
+      "type": "string"
+    },
+    "sertifikat_eksternal": {
+      "type": "string"
+    },
+    "foto_kta": {
+      "type": "string"
+    },
+    "pendidikan_d3": {
+      "type": "string"
+    },
+    "pendidikan_s1": {
+      "type": "string"
+    },
+    "pendidikan_s2": {
+      "type": "string"
+    },
+    "nama_ibu_kandung": {
+      "type": "string"
+    },
+    "no_telp_ibu": {
+      "type": "string"
+    },
+    "alamat_ibu": {
+      "type": "string"
+    },
+    "no_telp_tidak_serumah": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "Pending",
+        "Approved",
+        "Rejected"
+      ],
+      "default": "Pending"
+    },
+    "nik_karyawan": {
+      "type": "string",
+      "description": "NIK ID setelah approved"
+    },
+    "entity_pt": {
+      "type": "string",
+      "enum": [
+        "PT. PUTRA INDONESIA SOLUSI",
+        "PT. PRESTASI INDONESIA SOLUSI"
+      ],
+      "description": "PT yang dipilih saat approval"
+    },
+    "link_code": {
+      "type": "string",
+      "description": "Kode link unik untuk input pelamar"
+    }
+  },
+  "required": [
+    "nama_lengkap",
+    "nik_ektp",
+    "no_telepon"
+  ],
+  "rls": {
+    "create": null,
+    "read": {
+      "$or": [
+        {
+          "created_by": "{{user.email}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

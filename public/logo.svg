@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-label="PIS logo">
+  <rect width="256" height="256" rx="44" fill="#0f172a"/>
+  <path d="M68 78h44c32 0 56 18 56 52 0 39-25 58-61 58H68V78Zm24 18v74h16c20 0 33-10 33-37 0-18-8-37-33-37h-16Z" fill="#f8fafc"/>
+  <path d="M158 78h28l24 64 24-64h28l-38 102h-28l-38-102Z" fill="#38bdf8"/>
+</svg>

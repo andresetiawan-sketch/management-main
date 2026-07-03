@@ -1,0 +1,124 @@
+{
+  "name": "OvertimeClaim",
+  "type": "object",
+  "properties": {
+    "nik_karyawan": {
+      "type": "string"
+    },
+    "nama_karyawan": {
+      "type": "string"
+    },
+    "jabatan": {
+      "type": "string"
+    },
+    "area_tugas": {
+      "type": "string"
+    },
+    "tanggal": {
+      "type": "string",
+      "format": "date"
+    },
+    "jam_mulai_lembur": {
+      "type": "string"
+    },
+    "jam_selesai_lembur": {
+      "type": "string"
+    },
+    "durasi_jam": {
+      "type": "number"
+    },
+    "alasan": {
+      "type": "string"
+    },
+    "attendance_id": {
+      "type": "string",
+      "description": "Referensi ke record absensi"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "Pending Leader",
+        "Pending Supervisor",
+        "Disetujui",
+        "Ditolak"
+      ],
+      "default": "Pending Leader"
+    },
+    "approval_leader_nik": {
+      "type": "string"
+    },
+    "approval_leader_nama": {
+      "type": "string"
+    },
+    "approval_leader_catatan": {
+      "type": "string"
+    },
+    "approval_leader_waktu": {
+      "type": "string"
+    },
+    "approval_supervisor_nik": {
+      "type": "string"
+    },
+    "approval_supervisor_nama": {
+      "type": "string"
+    },
+    "approval_supervisor_catatan": {
+      "type": "string"
+    },
+    "approval_supervisor_waktu": {
+      "type": "string"
+    },
+    "tarif_per_jam": {
+      "type": "number",
+      "default": 0
+    },
+    "total_bayar": {
+      "type": "number",
+      "default": 0
+    }
+  },
+  "required": [
+    "nik_karyawan",
+    "tanggal",
+    "jam_mulai_lembur",
+    "jam_selesai_lembur"
+  ],
+  "rls": {
+    "create": null,
+    "read": {
+      "$or": [
+        {
+          "data.nik_karyawan": "{{user.data.nik_karyawan}}"
+        },
+        {
+          "data.area_tugas": "{{user.data.area_tugas}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "update": {
+      "$or": [
+        {
+          "data.nik_karyawan": "{{user.data.nik_karyawan}}"
+        },
+        {
+          "data.area_tugas": "{{user.data.area_tugas}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

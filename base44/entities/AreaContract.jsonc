@@ -1,0 +1,61 @@
+{
+  "name": "AreaContract",
+  "type": "object",
+  "properties": {
+    "area_tugas": {
+      "type": "string",
+      "description": "Nama area / proyek"
+    },
+    "nama_kontrak": {
+      "type": "string",
+      "description": "Nama / judul kontrak"
+    },
+    "nilai_kontrak": {
+      "type": "number",
+      "description": "Nilai kontrak (Rupiah)"
+    },
+    "bank_in": {
+      "type": "string",
+      "description": "Bank penerimaan pembayaran"
+    },
+    "bank_out": {
+      "type": "string",
+      "description": "Bank pengeluaran"
+    },
+    "nomor_invoice": {
+      "type": "string"
+    },
+    "tanggal_invoice": {
+      "type": "string",
+      "format": "date"
+    },
+    "tanggal_mulai_kontrak": {
+      "type": "string",
+      "format": "date"
+    },
+    "tanggal_selesai_kontrak": {
+      "type": "string",
+      "format": "date"
+    },
+    "dokumen_kontrak": {
+      "type": "string",
+      "description": "URL file dokumen kontrak"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "Aktif",
+        "Habis",
+        "Perpanjang"
+      ],
+      "default": "Aktif"
+    },
+    "catatan": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "area_tugas",
+    "nama_kontrak"
+  ]
+}

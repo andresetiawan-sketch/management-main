@@ -1,0 +1,71 @@
+{
+  "name": "ShiftRequirement",
+  "type": "object",
+  "properties": {
+    "area_tugas": {
+      "type": "string"
+    },
+    "tipe_shift": {
+      "type": "string",
+      "enum": [
+        "6-2",
+        "4-2",
+        "5-2",
+        "Custom"
+      ]
+    },
+    "sesi": {
+      "type": "string",
+      "enum": [
+        "Pagi",
+        "Siang/Sore",
+        "Malam",
+        "Custom"
+      ]
+    },
+    "min_personel": {
+      "type": "number",
+      "default": 1
+    },
+    "jabatan_dibutuhkan": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "catatan": {
+      "type": "string"
+    },
+    "aktif": {
+      "type": "boolean",
+      "default": true
+    }
+  },
+  "required": [
+    "area_tugas",
+    "sesi",
+    "min_personel"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

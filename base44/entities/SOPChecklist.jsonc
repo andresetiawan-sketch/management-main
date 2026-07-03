@@ -1,0 +1,100 @@
+{
+  "name": "SOPChecklist",
+  "type": "object",
+  "properties": {
+    "nama_sop": {
+      "type": "string"
+    },
+    "area_tugas": {
+      "type": "string"
+    },
+    "kategori": {
+      "type": "string",
+      "enum": [
+        "Keamanan",
+        "Fasilitas",
+        "Kebersihan",
+        "K3",
+        "Operasional",
+        "Lainnya"
+      ]
+    },
+    "deskripsi": {
+      "type": "string"
+    },
+    "langkah": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "urutan": {
+            "type": "number"
+          },
+          "instruksi": {
+            "type": "string"
+          },
+          "foto_wajib": {
+            "type": "boolean",
+            "default": true
+          },
+          "catatan_panduan": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "frekuensi": {
+      "type": "string",
+      "enum": [
+        "Harian",
+        "Mingguan",
+        "Bulanan",
+        "Per Shift"
+      ],
+      "default": "Harian"
+    },
+    "berlaku_untuk": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "Aktif",
+        "Non-Aktif"
+      ],
+      "default": "Aktif"
+    },
+    "dibuat_oleh": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "nama_sop",
+    "area_tugas",
+    "kategori"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": null,
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

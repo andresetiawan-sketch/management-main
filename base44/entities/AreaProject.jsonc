@@ -1,0 +1,80 @@
+{
+  "name": "AreaProject",
+  "type": "object",
+  "properties": {
+    "nama_area": {
+      "type": "string",
+      "description": "Nama area/proyek client"
+    },
+    "alamat": {
+      "type": "string"
+    },
+    "pic_client": {
+      "type": "string"
+    },
+    "link_absensi": {
+      "type": "string",
+      "description": "Link absensi area otomatis"
+    },
+    "link_pelamar": {
+      "type": "string",
+      "description": "Link input pelamar area"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "Aktif",
+        "Non-Aktif"
+      ],
+      "default": "Aktif"
+    },
+    "modules": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Modul aktif"
+    },
+    "jabatan_tersedia": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Jabatan yang tersedia di area ini"
+    },
+    "menu_per_jabatan": {
+      "type": "object",
+      "description": "Menu yang tersedia per jabatan"
+    },
+    "e_patrol_checkpoints": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      },
+      "description": "Titik-titik E-Patrol dengan barcode"
+    },
+    "input_absensi_link": {
+      "type": "string",
+      "description": "Link input E-Absensi area"
+    }
+  },
+  "required": [
+    "nama_area"
+  ],
+  "rls": {
+    "create": null,
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "created_by": "{{user.email}}"
+    }
+  }
+}

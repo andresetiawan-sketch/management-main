@@ -1,0 +1,154 @@
+{
+  "name": "TenantReport",
+  "type": "object",
+  "properties": {
+    "nama_pelapor": {
+      "type": "string"
+    },
+    "unit_tenant": {
+      "type": "string"
+    },
+    "no_telepon": {
+      "type": "string"
+    },
+    "area_tugas": {
+      "type": "string"
+    },
+    "judul": {
+      "type": "string"
+    },
+    "kategori": {
+      "type": "string",
+      "enum": [
+        "Kebocoran",
+        "Listrik",
+        "AC/Ventilasi",
+        "Lift/Eskalator",
+        "Kebersihan",
+        "Keamanan",
+        "Parkir",
+        "Lainnya"
+      ]
+    },
+    "deskripsi": {
+      "type": "string"
+    },
+    "prioritas": {
+      "type": "string",
+      "enum": [
+        "Rendah",
+        "Sedang",
+        "Tinggi",
+        "Darurat"
+      ],
+      "default": "Sedang"
+    },
+    "lampiran": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "URL gambar/video lampiran"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "Terbuka",
+        "Sedang Diproses",
+        "Terselesaikan"
+      ],
+      "default": "Terbuka"
+    },
+    "petugas_nik": {
+      "type": "string"
+    },
+    "petugas_nama": {
+      "type": "string"
+    },
+    "catatan_petugas": {
+      "type": "string"
+    },
+    "tanggal_lapor": {
+      "type": "string",
+      "format": "date"
+    },
+    "waktu_lapor": {
+      "type": "string"
+    },
+    "tanggal_selesai": {
+      "type": "string",
+      "format": "date"
+    },
+    "notified_24h": {
+      "type": "boolean",
+      "default": false
+    },
+    "pesan": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "dari": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string"
+          },
+          "pesan": {
+            "type": "string"
+          },
+          "waktu": {
+            "type": "string"
+          },
+          "lampiran": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  },
+  "required": [
+    "nama_pelapor",
+    "judul",
+    "area_tugas",
+    "kategori"
+  ],
+  "rls": {
+    "create": null,
+    "read": {
+      "$or": [
+        {
+          "data.nama_pelapor": "{{user.full_name}}"
+        },
+        {
+          "data.area_tugas": "{{user.data.area_tugas}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "update": {
+      "$or": [
+        {
+          "data.nama_pelapor": "{{user.full_name}}"
+        },
+        {
+          "data.area_tugas": "{{user.data.area_tugas}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

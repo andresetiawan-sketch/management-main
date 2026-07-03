@@ -1,0 +1,127 @@
+{
+  "name": "SOPAudit",
+  "type": "object",
+  "properties": {
+    "sop_id": {
+      "type": "string"
+    },
+    "nama_sop": {
+      "type": "string"
+    },
+    "area_tugas": {
+      "type": "string"
+    },
+    "nik_petugas": {
+      "type": "string"
+    },
+    "nama_petugas": {
+      "type": "string"
+    },
+    "jabatan": {
+      "type": "string"
+    },
+    "tanggal": {
+      "type": "string",
+      "format": "date"
+    },
+    "waktu_mulai": {
+      "type": "string"
+    },
+    "waktu_selesai": {
+      "type": "string"
+    },
+    "langkah_hasil": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "langkah_id": {
+            "type": "string"
+          },
+          "instruksi": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "Sesuai",
+              "Tidak Sesuai",
+              "N/A"
+            ]
+          },
+          "foto": {
+            "type": "string"
+          },
+          "catatan": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "skor": {
+      "type": "number",
+      "description": "0-100 otomatis dihitung"
+    },
+    "total_langkah": {
+      "type": "number"
+    },
+    "langkah_sesuai": {
+      "type": "number"
+    },
+    "catatan_audit": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "Draft",
+        "Selesai"
+      ],
+      "default": "Draft"
+    }
+  },
+  "required": [
+    "sop_id",
+    "nik_petugas",
+    "tanggal",
+    "area_tugas"
+  ],
+  "rls": {
+    "create": null,
+    "read": {
+      "$or": [
+        {
+          "data.nik_petugas": "{{user.data.nik_karyawan}}"
+        },
+        {
+          "data.area_tugas": "{{user.data.area_tugas}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "update": {
+      "$or": [
+        {
+          "data.nik_petugas": "{{user.data.nik_karyawan}}"
+        },
+        {
+          "data.area_tugas": "{{user.data.area_tugas}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

@@ -1,0 +1,117 @@
+{
+  "name": "AssetMaintenance",
+  "type": "object",
+  "properties": {
+    "inventory_id": {
+      "type": "string",
+      "description": "ID referensi Inventory"
+    },
+    "kode_barang": {
+      "type": "string"
+    },
+    "nama_barang": {
+      "type": "string"
+    },
+    "area_tugas": {
+      "type": "string"
+    },
+    "tanggal": {
+      "type": "string",
+      "format": "date"
+    },
+    "jenis_maintenance": {
+      "type": "string",
+      "enum": [
+        "Pengecekan Rutin",
+        "Perbaikan",
+        "Penggantian Komponen",
+        "Kalibrasi",
+        "Pembersihan"
+      ]
+    },
+    "kondisi_sebelum": {
+      "type": "string",
+      "enum": [
+        "Baik",
+        "Cukup",
+        "Rusak"
+      ]
+    },
+    "kondisi_sesudah": {
+      "type": "string",
+      "enum": [
+        "Baik",
+        "Cukup",
+        "Rusak"
+      ]
+    },
+    "deskripsi": {
+      "type": "string"
+    },
+    "biaya": {
+      "type": "number",
+      "default": 0
+    },
+    "foto_before": {
+      "type": "string"
+    },
+    "foto_after": {
+      "type": "string"
+    },
+    "teknisi": {
+      "type": "string"
+    },
+    "nik_pelapor": {
+      "type": "string"
+    },
+    "nama_pelapor": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "Selesai",
+        "Dalam Proses",
+        "Menunggu Sparepart"
+      ],
+      "default": "Selesai"
+    }
+  },
+  "required": [
+    "inventory_id",
+    "tanggal",
+    "jenis_maintenance"
+  ],
+  "rls": {
+    "create": null,
+    "read": {
+      "$or": [
+        {
+          "data.area_tugas": "{{user.data.area_tugas}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "update": {
+      "$or": [
+        {
+          "data.area_tugas": "{{user.data.area_tugas}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

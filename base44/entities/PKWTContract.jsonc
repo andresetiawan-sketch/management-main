@@ -1,0 +1,196 @@
+{
+  "name": "PKWTContract",
+  "type": "object",
+  "properties": {
+    "nomor_pkwt": {
+      "type": "string",
+      "description": "Nomor urut PKWT"
+    },
+    "nik_karyawan": {
+      "type": "string",
+      "description": "NIK ID Karyawan"
+    },
+    "nama_karyawan": {
+      "type": "string"
+    },
+    "nik_ektp": {
+      "type": "string",
+      "description": "NIK E-KTP karyawan"
+    },
+    "tempat_lahir": {
+      "type": "string"
+    },
+    "tanggal_lahir": {
+      "type": "string",
+      "format": "date"
+    },
+    "alamat_karyawan": {
+      "type": "string"
+    },
+    "jabatan": {
+      "type": "string"
+    },
+    "area_tugas": {
+      "type": "string"
+    },
+    "entity_pt": {
+      "type": "string",
+      "enum": [
+        "PT. PUTRA INDONESIA SOLUSI",
+        "PT. PRESTASI INDONESIA SOLUSI"
+      ]
+    },
+    "alamat_perusahaan": {
+      "type": "string"
+    },
+    "nama_direktur": {
+      "type": "string"
+    },
+    "jabatan_direktur": {
+      "type": "string",
+      "default": "Direktur"
+    },
+    "kota_tanda_tangan": {
+      "type": "string"
+    },
+    "hari_tanda_tangan": {
+      "type": "string"
+    },
+    "tanggal_tanda_tangan": {
+      "type": "string"
+    },
+    "tanggal_mulai": {
+      "type": "string",
+      "format": "date"
+    },
+    "tanggal_selesai": {
+      "type": "string",
+      "format": "date"
+    },
+    "durasi_bulan": {
+      "type": "number"
+    },
+    "durasi_terbilang": {
+      "type": "string"
+    },
+    "wilayah_penugasan": {
+      "type": "string"
+    },
+    "durasi_shift": {
+      "type": "string",
+      "default": "8 (delapan)"
+    },
+    "pemberitahuan_shift": {
+      "type": "string",
+      "default": "1 (satu)"
+    },
+    "gaji_pokok": {
+      "type": "string",
+      "description": "Nominal gaji pokok (teks)"
+    },
+    "gaji_pokok_terbilang": {
+      "type": "string"
+    },
+    "tanggal_gajian": {
+      "type": "string",
+      "default": "25"
+    },
+    "bank_karyawan": {
+      "type": "string"
+    },
+    "no_rekening": {
+      "type": "string"
+    },
+    "batas_perpanjangan": {
+      "type": "string",
+      "default": "30 (tiga puluh)"
+    },
+    "notif_phk": {
+      "type": "string",
+      "default": "14 (empat belas)"
+    },
+    "kota_pengadilan": {
+      "type": "string"
+    },
+    "pasal_9_ayat": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      },
+      "description": "Ayat-ayat Pasal 9 (Lain-lain) yang bisa diedit"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "Draft",
+        "Menunggu Approval",
+        "Aktif",
+        "Selesai",
+        "Dibatalkan"
+      ],
+      "default": "Draft"
+    },
+    "approval_status": {
+      "type": "string",
+      "enum": [
+        "Menunggu Approval",
+        "Disetujui",
+        "Ditolak"
+      ],
+      "description": "Status approval atasan"
+    },
+    "approved_by": {
+      "type": "string"
+    },
+    "approved_at": {
+      "type": "string"
+    },
+    "catatan_approval": {
+      "type": "string"
+    },
+    "dokumen_pkwt": {
+      "type": "string",
+      "description": "URL file dokumen PKWT final (PDF/Word)"
+    },
+    "draft_template": {
+      "type": "string",
+      "description": "URL file draft PKWT yang diupload"
+    },
+    "catatan": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "nik_karyawan",
+    "nama_karyawan"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": {
+      "$or": [
+        {
+          "data.nik_karyawan": "{{user.data.nik_karyawan}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

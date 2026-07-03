@@ -1,0 +1,126 @@
+{
+  "name": "ShiftSwap",
+  "type": "object",
+  "properties": {
+    "nik_pemohon": {
+      "type": "string",
+      "description": "NIK karyawan yang mengajukan tukar shift"
+    },
+    "nama_pemohon": {
+      "type": "string"
+    },
+    "nik_penerima": {
+      "type": "string",
+      "description": "NIK karyawan yang diminta tukar shift"
+    },
+    "nama_penerima": {
+      "type": "string"
+    },
+    "area_tugas": {
+      "type": "string"
+    },
+    "shift_tanggal": {
+      "type": "string",
+      "format": "date",
+      "description": "Tanggal shift yang akan ditukar"
+    },
+    "shift_id_pemohon": {
+      "type": "string",
+      "description": "ID jadwal shift pemohon"
+    },
+    "shift_id_penerima": {
+      "type": "string",
+      "description": "ID jadwal shift penerima (jika ada)"
+    },
+    "alasan": {
+      "type": "string",
+      "description": "Alasan pengajuan tukar shift"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "Pending",
+        "Disetujui Atasan",
+        "Ditolak",
+        "Selesai"
+      ],
+      "default": "Pending"
+    },
+    "nik_atasan": {
+      "type": "string",
+      "description": "NIK atasan yang approve"
+    },
+    "nama_atasan": {
+      "type": "string"
+    },
+    "tanggal_approval": {
+      "type": "string",
+      "format": "date"
+    },
+    "catatan_atasan": {
+      "type": "string"
+    },
+    "tanggal_pengajuan": {
+      "type": "string",
+      "format": "date"
+    }
+  },
+  "required": [
+    "nik_pemohon",
+    "nik_penerima",
+    "area_tugas",
+    "shift_tanggal",
+    "alasan"
+  ],
+  "rls": {
+    "create": null,
+    "read": {
+      "$or": [
+        {
+          "data.nik_pemohon": "{{user.data.nik_karyawan}}"
+        },
+        {
+          "data.nik_penerima": "{{user.data.nik_karyawan}}"
+        },
+        {
+          "data.area_tugas": "{{user.data.area_tugas}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "update": {
+      "$or": [
+        {
+          "data.nik_pemohon": "{{user.data.nik_karyawan}}"
+        },
+        {
+          "data.nik_penerima": "{{user.data.nik_karyawan}}"
+        },
+        {
+          "data.area_tugas": "{{user.data.area_tugas}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "$or": [
+        {
+          "data.nik_pemohon": "{{user.data.nik_karyawan}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    }
+  }
+}

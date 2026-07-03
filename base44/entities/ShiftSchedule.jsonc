@@ -1,0 +1,84 @@
+{
+  "name": "ShiftSchedule",
+  "type": "object",
+  "properties": {
+    "area_tugas": {
+      "type": "string"
+    },
+    "regu": {
+      "type": "string",
+      "enum": [
+        "Regu A",
+        "Regu B",
+        "Regu C",
+        "Regu D",
+        "Non Regu"
+      ]
+    },
+    "tanggal": {
+      "type": "string",
+      "format": "date"
+    },
+    "jam_mulai": {
+      "type": "string"
+    },
+    "jam_selesai": {
+      "type": "string"
+    },
+    "tipe_shift": {
+      "type": "string",
+      "enum": [
+        "6-2",
+        "6-1",
+        "4-2",
+        "Custom"
+      ]
+    },
+    "karyawan_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "NIK karyawan dalam jadwal"
+    },
+    "catatan": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "area_tugas",
+    "tanggal"
+  ],
+  "rls": {
+    "create": null,
+    "read": {
+      "$or": [
+        {
+          "data.karyawan_ids": {
+            "$in": [
+              "{{user.data.nik_karyawan}}"
+            ]
+          }
+        },
+        {
+          "data.area_tugas": "{{user.data.area_tugas}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

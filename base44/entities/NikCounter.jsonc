@@ -1,0 +1,45 @@
+{
+  "name": "NikCounter",
+  "type": "object",
+  "properties": {
+    "tahun": {
+      "type": "number",
+      "description": "Tahun counter"
+    },
+    "prefix": {
+      "type": "string",
+      "description": "PU0720 atau PR0720"
+    },
+    "last_number": {
+      "type": "number",
+      "default": 0,
+      "description": "Nomor urut terakhir"
+    }
+  },
+  "required": [
+    "tahun",
+    "prefix"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

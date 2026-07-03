@@ -14,6 +14,7 @@ export function corsMiddleware(request, env, ctx, next) {
   const allowedOrigins = [
     'https://app-pis.pages.dev',
     'https://app-pis-staging.pages.dev',
+    'https://base44-app-5pg.pages.dev',  // Current Pages project
     'http://localhost:5173',      // Vite dev
     'http://localhost:8787',       // Wrangler dev
     'http://127.0.0.1:5173',

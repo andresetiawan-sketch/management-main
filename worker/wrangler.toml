@@ -22,9 +22,6 @@ routes = []  # Local development only
 # STAGING ENVIRONMENT
 # ============================================
 [env.staging]
-routes = [
-  { pattern = "app-pis-staging-api.example.com/*", zone_id = "YOUR_ZONE_ID" }
-]
 vars = { ENV = "staging", DEBUG = "false" }
 
 # D1 Database for Staging
@@ -43,9 +40,6 @@ bucket_name = "app-pis-staging-uploads"
 # PRODUCTION ENVIRONMENT
 # ============================================
 [env.production]
-routes = [
-  { pattern = "app-pis-api.example.com/*", zone_id = "YOUR_ZONE_ID" }
-]
 vars = { ENV = "production", DEBUG = "false" }
 
 # D1 Database for Production
@@ -94,9 +88,8 @@ bucket_name = "app-pis-dev-uploads"
 # ============================================
 # CRON TRIGGERS (Scheduled Tasks)
 # ============================================
-[[triggers.crons]]
-crons = ["0 2 * * *"]  # Daily at 2 AM UTC
-handler = "scheduled"  # Calls scheduled() function in index.js
+# [[triggers.crons]]
+# crons = ["0 2 * * *"]  # Daily at 2 AM UTC
 
 # ============================================
 # BUILD CONFIGURATION

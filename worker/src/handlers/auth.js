@@ -15,7 +15,19 @@ import { validateInput } from '../lib/validators.js';
  */
 export async function handleLogin(request, env) {
   try {
-    const { nik, password } = await request.json();
+    let nik, password;
+    
+    try {
+      const body = await request.json();
+      nik = body.nik;
+      password = body.password;
+    } catch (parseError) {
+      console.error('JSON parse error:', parseError);
+      return new Response(JSON.stringify({ error: 'Invalid JSON in request body', details: parseError.message }), {
+        status: 400,
+        headers: { 'Content-Type': 'application/json' },
+      });
+    }
 
     // Validate input
     if (!nik || !password) {
@@ -94,7 +106,9 @@ export async function handleLogin(request, env) {
 
   } catch (error) {
     console.error('Login error:', error);
-    return new Response(JSON.stringify({ error: 'Internal server error' }), {
+    console.error('Error message:', error.message);
+    console.error('Error stack:', error.stack);
+    return new Response(JSON.stringify({ error: 'Internal server error', details: error.message }), {
       status: 500,
       headers: { 'Content-Type': 'application/json' },
     });
